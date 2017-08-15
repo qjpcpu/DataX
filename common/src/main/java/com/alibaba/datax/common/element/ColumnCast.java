@@ -47,7 +47,7 @@ class StringCast {
 
 	static List<String> extraFormats = Collections.emptyList();
 
-	static String timeZone = "GMT+8";
+	static String timeZone = "Asia/Shanghai";
 
 	static FastDateFormat dateFormatter;
 
@@ -139,7 +139,7 @@ class DateCast {
 
 	static String timeFormat = "HH:mm:ss";
 
-	static String timeZone = "GMT+8";
+	static String timeZone = "Asia/Shanghai";
 
 	static TimeZone timeZoner = TimeZone.getTimeZone(DateCast.timeZone);
 
