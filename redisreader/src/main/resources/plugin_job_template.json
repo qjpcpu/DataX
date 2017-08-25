@@ -1,10 +1,9 @@
 {
     "name": "redisreader",
     "parameter": {
-        "dumpfile": "./drump.rdb",
+        "dumpfile": "/tmp/dump.rdb",
         "keyMatch": "*",
-        "db": 0,
-        "mapreduceJs": "",
+        "mapreduceJs": "function map(key,raw_value){for(var p in raw_value){mr.collect(key,p,raw_value[p]);}} function reduce(newkey,obj){mr.addrow([newkey,obj['name'],obj['age']]);}",
         "mapreduceJsFile": ""
     }
 }
