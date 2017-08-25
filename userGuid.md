@@ -202,7 +202,7 @@ DataX本身作为数据同步框架，将不同数据源的同步抽象为从源
 **无结构化数据存储**
 
 * [TxtFileReader](http://gitlab.alibaba-inc.com/datax/datax/wikis/datax-plugin-txtfilereader): 读取(递归/过滤)本地文件。
-* [RedisReader](https://raw.githubusercontent.com/qjpcpu/DataX/master/redisreader/doc/redisreader.md):读取redis dump.rdb文件。
+* [RedisReader](https://github.com/qjpcpu/DataX/blob/master/redisreader/doc/redisreader.md):读取redis dump.rdb文件。
 * [FtpReader](http://gitlab.alibaba-inc.com/datax/datax/wikis/datax-plugin-ftpreader): 读取(递归/过滤)远程ftp文件。
 * [HdfsReader](http://gitlab.alibaba-inc.com/datax/datax/wikis/datax-plugin-hdfsreader): 针对Hdfs文件系统中textfile和orcfile文件批量数据抽取工具。 
 * [OssReader](http://gitlab.alibaba-inc.com/datax/datax/wikis/datax-plugin-ossreader): 针对公有云OSS产品的批量数据抽取工具。
