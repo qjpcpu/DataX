@@ -83,7 +83,7 @@ RedisReader实现了从dump.rdb文件读取数据并转为DataX协议的功能�
 
 * **mapreduceJs**
 
-	* 描述：map-reduce函数js`。 <br />
+	* 描述：map-reduce函数js。 <br />
 
 	* 必选：mapreduceJs/mapreduceJsFile必须定义一个 <br />
 

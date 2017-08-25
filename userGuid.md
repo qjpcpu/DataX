@@ -184,7 +184,7 @@ DataX本身作为数据同步框架，将不同数据源的同步抽象为从源
 
 **RDBMS 关系型数据库**
 
-* [MysqlReader](https://github.com/alibaba/DataX/blob/master/mysqlreader/doc/mysqlreader.md): 使用JDBC批量抽取Mysql数据集。
+* [MysqlReader](https://github.com/alibaba/DataX/blob/master/mysqlreader/doc/mysqlreader.md): 使用JDBC批量抽取Mysql数据集。
 * [OracleReader](https://github.com/alibaba/DataX/blob/master/oraclereader/doc/oraclereader.md): 使用JDBC批量抽取Oracle数据集。
 * [SqlServerReader](http://gitlab.alibaba-inc.com/datax/datax/wikis/datax-plugin-sqlserverreader): 使用JDBC批量抽取SqlServer数据集
 * [PostgresqlReader](http://gitlab.alibaba-inc.com/datax/datax/wikis/datax-plugin-pgreader): 使用JDBC批量抽取PostgreSQL数据集
