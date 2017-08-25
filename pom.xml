@@ -54,6 +54,7 @@
         <module>otsreader</module>
         <!-- <module>otsstreamreader</module> -->
         <module>txtfilereader</module>
+        <module>redisreader</module>
         <module>hdfsreader</module>
         <module>streamreader</module>
         <module>hbasereader</module>

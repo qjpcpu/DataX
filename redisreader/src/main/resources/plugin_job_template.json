@@ -1,0 +1,10 @@
+{
+    "name": "redisreader",
+    "parameter": {
+        "dumpfile": "./drump.rdb",
+        "keyMatch": "*",
+        "db": 0,
+        "mapreduceJs": "",
+        "mapreduceJsFile": ""
+    }
+}
