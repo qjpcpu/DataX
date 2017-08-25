@@ -206,17 +206,20 @@ public class RedisReader extends Reader {
         }
 
         public void parseRdbFile() throws Exception {
+            RdbParser parser=null;
             try {
-                RdbParser parser = new RdbParser(new File(this.dumpfile));
+                parser = new RdbParser(new File(this.dumpfile));
                 Entry e;
                 long db_num = 0;
                 while ((e = parser.readNext()) != null) {
                     if (e.getType() == EntryType.DB_SELECT) {
                         db_num = ((DbSelect) e).getId();
                     }
-                    if (this.db >= 0 && this.db != db_num) {
-                        LOG.info("跳过db:" + db_num);
+                    if (this.db >= 0 && this.db > db_num) {
+                        LOG.debug("跳过db:" + db_num);
                         continue;
+                    } else if (this.db >= 0 && this.db < db_num) {
+                        break;
                     }
                     switch (e.getType()) {
                         case DB_SELECT:
@@ -229,7 +232,6 @@ public class RedisReader extends Reader {
                                 LOG.debug(String.format("%02x", b & 0xff));
                             }
                             break;
-
                         case KEY_VALUE_PAIR:
                             KeyValuePair kvp = (KeyValuePair) e;
                             String key = kvp.getKeyString();
@@ -243,6 +245,10 @@ public class RedisReader extends Reader {
             } catch (Exception e) {
                 LOG.error(e.toString());
                 throw e;
+            }finally {
+                if (parser!=null) {
+                    parser.close();
+                }
             }
         }
 

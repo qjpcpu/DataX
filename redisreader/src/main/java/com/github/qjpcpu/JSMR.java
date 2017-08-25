@@ -1,4 +1,8 @@
 package com.github.qjpcpu;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -9,12 +13,12 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class JSMR {
-
+    static Logger LOG = LoggerFactory.getLogger(JSMR.class);
     private MR mr;
     private Invocable jsInvoke;
 
 
-    public JSMR( String js) throws ScriptException {
+    public JSMR(String js) throws ScriptException {
         ScriptEngineManager manager = new ScriptEngineManager();
         ScriptEngine engine = manager.getEngineByName("js");
         this.mr = new MR();
@@ -45,6 +49,7 @@ public class JSMR {
     }
 
     public class MR {
+
         int columnCount;
         // 输出
         ArrayList<Object[]> rows;
@@ -67,21 +72,21 @@ public class JSMR {
         }
 
         public void addrow(Object[] row) throws ScriptException {
-            if (row == null || (row.length != this.columnCount && this.columnCount>0)) {
+            if (row == null || (row.length != this.columnCount && this.columnCount > 0)) {
                 throw new ScriptException("row column count not match " + this.columnCount);
             }
-            if (this.columnCount<=0){
-                this.columnCount=row.length;
+            if (this.columnCount <= 0) {
+                this.columnCount = row.length;
             }
             this.rows.add(row);
         }
 
         public void log(Object... message) {
-            String msg ="";
-            for (Object x: message){
-                msg+=x.toString()+" ";
+            String msg = "";
+            for (Object x : message) {
+                msg += x.toString() + " ";
             }
-            System.out.println(msg);
+            LOG.info(msg);
         }
     }
 
