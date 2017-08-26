@@ -32,7 +32,7 @@ RedisReader实现了从dump.rdb文件读取数据并转为DataX协议的功能�
                 "reader": {
                     "name": "redisreader",
                     "parameter": {
-                        "dumpfile": "/tmp/dump.rdb",
+                        "dumpfile": ["/tmp/dump.rdb"],
                         "keyMatch": "*",
                         "mapreduceJs": "function map(key,raw_value){for(var p in raw_value){mr.collect(key,p,raw_value[p]);}} function reduce(newkey,obj){mr.addrow([newkey,obj['name'],obj['age']]);}",
                     }

@@ -29,7 +29,7 @@ public class RedisReader extends Reader {
 
         private Configuration originConfig = null;
 
-        private String dumpfile = null;
+        private List<String> dumpfile = null;
         private int db = -1;
         private String keyMatch = null;
         private String js = null;
@@ -41,8 +41,8 @@ public class RedisReader extends Reader {
         @Override
         public void init() {
             this.originConfig = this.getPluginJobConf();
-            this.dumpfile = this.originConfig.getString(Key.DUMPFILE);
-            if (StringUtils.isBlank(this.dumpfile)) {
+            this.dumpfile = this.originConfig.getList(Key.DUMPFILE,String.class);
+            if (this.dumpfile==null||this.dumpfile.size()==0) {
                 throw DataXException.asDataXException(
                         RedisReaderErrorCode.REQUIRED_VALUE,
                         "您需要指定待读取的dump.rdb文件");
@@ -108,7 +108,7 @@ public class RedisReader extends Reader {
 
         private Configuration originConfig = null;
 
-        private String dumpfile = null;
+        private List<String> dumpfile = null;
         private int db = -1;
         private String keyMatch = null;
 
@@ -122,8 +122,8 @@ public class RedisReader extends Reader {
 
             this.originConfig = this.getPluginJobConf();
 
-            this.dumpfile = this.originConfig.getString(Key.DUMPFILE);
-            if (StringUtils.isBlank(this.dumpfile)) {
+            this.dumpfile = this.originConfig.getList(Key.DUMPFILE,String.class);
+            if (dumpfile==null||dumpfile.size()==0) {
                 throw DataXException.asDataXException(
                         RedisReaderErrorCode.REQUIRED_VALUE,
                         "您需要指定待读取的dump.rdb文件");
@@ -183,8 +183,10 @@ public class RedisReader extends Reader {
         public void startRead(RecordSender recordSender) {
             LOG.debug("start read dump file...");
             try {
-                parseRdbFile();
-
+                for (String file: this.dumpfile) {
+                    parseRdbFile(file);
+                }
+                jsmr.reduce();
                 ArrayList<Object[]> rows = jsmr.getResult();
                 for (int i = 0; i < rows.size(); i++) {
                     Record record = recordSender.createRecord();
@@ -193,7 +195,6 @@ public class RedisReader extends Reader {
                     }
                     recordSender.sendToWriter(record);
                 }
-
                 recordSender.flush();
             } catch (Exception e) {
                 String message = String
@@ -205,10 +206,10 @@ public class RedisReader extends Reader {
             LOG.debug("end read dump file...");
         }
 
-        public void parseRdbFile() throws Exception {
+        public void parseRdbFile(String filename) throws Exception {
             RdbParser parser=null;
             try {
-                parser = new RdbParser(new File(this.dumpfile));
+                parser = new RdbParser(new File(filename));
                 Entry e;
                 long db_num = 0;
                 while ((e = parser.readNext()) != null) {
@@ -241,7 +242,7 @@ public class RedisReader extends Reader {
                             break;
                     }
                 }
-                jsmr.reduce();
+
             } catch (Exception e) {
                 LOG.error(e.toString());
                 throw e;
