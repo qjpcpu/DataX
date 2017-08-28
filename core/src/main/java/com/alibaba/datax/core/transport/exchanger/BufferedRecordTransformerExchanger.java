@@ -21,22 +21,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class BufferedRecordTransformerExchanger extends TransformerExchanger implements RecordSender, RecordReceiver {
 
-    private final Channel channel;
-
-    private final Configuration configuration;
-
-    private final List<Record> buffer;
-
-    private int bufferSize;
-
-    protected final int byteCapacity;
-
-    private final AtomicInteger memoryBytes = new AtomicInteger(0);
-
-    private int bufferIndex = 0;
-
     private static Class<? extends Record> RECORD_CLASS;
-
+    protected final int byteCapacity;
+    private final Channel channel;
+    private final Configuration configuration;
+    private final List<Record> buffer;
+    private final AtomicInteger memoryBytes = new AtomicInteger(0);
+    private final RecordTee rt;
+    private int bufferSize;
+    private int bufferIndex = 0;
     private volatile boolean shutdown = false;
 
 
@@ -69,6 +62,14 @@ public class BufferedRecordTransformerExchanger extends TransformerExchanger imp
             throw DataXException.asDataXException(
                     FrameworkErrorCode.CONFIG_ERROR, e);
         }
+
+        try {
+            String teepath = configuration.getString(CoreConstant.DATAX_CORE_TRANSPORT_EXCHANGER_TEE);
+            this.rt = new RecordTee(teepath, configuration.getString(CoreConstant.DATAX_CORE_TRANSPORT_EXCHANGER_TEE_SEPARATOR));
+        } catch (Exception e) {
+            throw DataXException.asDataXException(
+                    FrameworkErrorCode.CONFIG_ERROR, e);
+        }
     }
 
     @Override
@@ -91,7 +92,7 @@ public class BufferedRecordTransformerExchanger extends TransformerExchanger imp
 
         record = doTransformer(record);
 
-        if(record == null){
+        if (record == null) {
             return;
         }
 
@@ -108,6 +109,7 @@ public class BufferedRecordTransformerExchanger extends TransformerExchanger imp
         this.buffer.add(record);
         this.bufferIndex++;
         memoryBytes.addAndGet(record.getMemorySize());
+        this.rt.tee(record);
     }
 
     @Override
@@ -130,6 +132,7 @@ public class BufferedRecordTransformerExchanger extends TransformerExchanger imp
         }
         flush();
         this.channel.pushTerminate(TerminateRecord.get());
+        this.rt.close();
     }
 
     @Override

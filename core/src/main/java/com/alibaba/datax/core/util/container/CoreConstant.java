@@ -61,6 +61,10 @@ public class CoreConstant {
 
 	public static final String DATAX_CORE_TRANSPORT_EXCHANGER_BUFFERSIZE = "core.transport.exchanger.bufferSize";
 
+	public static final String DATAX_CORE_TRANSPORT_EXCHANGER_TEE = "core.transport.exchanger.tee";
+
+	public static final String DATAX_CORE_TRANSPORT_EXCHANGER_TEE_SEPARATOR = "core.transport.exchanger.teeSeparator";
+
     public static final String DATAX_CORE_TRANSPORT_RECORD_CLASS = "core.transport.record.class";
 
 	public static final String DATAX_CORE_STATISTICS_COLLECTOR_PLUGIN_TASKCLASS = "core.statistics.collector.plugin.taskClass";

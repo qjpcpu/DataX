@@ -153,6 +153,16 @@ DataX本身作为数据同步框架，将不同数据源的同步抽象为从源
     }
     ```
     
+    备份数据配置:
+    ```
+    "core":{
+        "transport":{
+            "exchanger":{
+                "tee": "/tmp/backup.log"
+            }
+        }
+    }
+    ```
   * 第二步：启动DataX
     
     ``` shell
